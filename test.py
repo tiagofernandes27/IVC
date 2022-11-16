@@ -6,12 +6,38 @@ cap = cv2.VideoCapture(0)
 while True:
     ret, image = cap.read()
 
+    kernel = np.ones((5, 5), np.uint8)
+
+    dilate = cv2.dilate(image, kernel)
+    cv2.imshow("Dilate", dilate)
+
+    erode = cv2.erode(image, kernel)
+    cv2.imshow("Erode", erode)
+
+    # image.width
+    image_width = cap.get(3)
+    # print(image_width)
+
+    edges = cv2.Canny(image, 100, 200)
+
+    cv2.imshow("Edges", edges)
+
     # inverte imagem / espelhado
     # image = image[:, ::-1, :]
 
     # transforma imagem em HSV
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    # cv2.imshow("image", hsv)
+    # cv2.imshow("hsv", hsv)
+
+    # dilate = cv2.dilate(hsv, kernel)
+    # cv2.imshow("Dilate", dilate)
+
+    erode = cv2.erode(hsv, kernel)
+    # cv2.imshow("Erode", erode)
+
+    dilate2 = cv2.dilate(erode, kernel)
+
+    erode2 = cv2.erode(dilate2, kernel)
 
     # region Colors
 
@@ -27,7 +53,7 @@ while True:
     # Yellow
     lower = np.array([15, 50, 50])
     upper = np.array([35, 255, 255])
-    mask = cv2.inRange(hsv, lower, upper)
+    mask = cv2.inRange(erode, lower, upper)
 
     # Blue
     # lower = np.array([90, 50, 50])
@@ -51,13 +77,16 @@ while True:
             if cv2.contourArea(contour) > 500:
                 x, y, w, h = cv2.boundingRect(contour)
                 cv2.rectangle(image, (x, y), (x+w, y+h), (0, 0, 255), 3)
+                if (x < image_width/2) and (x+w < image_width/2):
+                    print("right")
+                elif (x > image_width/2) and (x+w > image_width/2):
+                    print("left")
 
     image = image[:, ::-1, :]
     cv2.imshow("image", image)
     cv2.imshow("yellow", mask)
     # cv2.imshow("only yellow", result)
 
-    # edges = cv2.Canny(image, )
 
     if cv2.waitKey(1) == ord('q'):
         break
