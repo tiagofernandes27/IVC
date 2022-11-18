@@ -8,19 +8,18 @@ while True:
 
     kernel = np.ones((5, 5), np.uint8)
 
-    dilate = cv2.dilate(image, kernel)
-    cv2.imshow("Dilate", dilate)
+    # dilate = cv2.dilate(image, kernel)
+    # cv2.imshow("Dilate", dilate)
 
-    erode = cv2.erode(image, kernel)
-    cv2.imshow("Erode", erode)
+    # erode = cv2.erode(image, kernel)
+    # cv2.imshow("Erode", erode)
 
     # image.width
     image_width = cap.get(3)
     # print(image_width)
 
-    edges = cv2.Canny(image, 100, 200)
-
-    cv2.imshow("Edges", edges)
+    # edges = cv2.Canny(image, 100, 200)
+    # cv2.imshow("Edges", edges)
 
     # inverte imagem / espelhado
     # image = image[:, ::-1, :]
@@ -34,10 +33,6 @@ while True:
 
     erode = cv2.erode(hsv, kernel)
     # cv2.imshow("Erode", erode)
-
-    dilate2 = cv2.dilate(erode, kernel)
-
-    erode2 = cv2.erode(dilate2, kernel)
 
     # region Colors
 
@@ -84,6 +79,7 @@ while True:
 
     image = image[:, ::-1, :]
     cv2.imshow("image", image)
+    mask = mask[:, ::-1]
     cv2.imshow("yellow", mask)
     # cv2.imshow("only yellow", result)
 
