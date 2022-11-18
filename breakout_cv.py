@@ -35,6 +35,8 @@ def cv_process(image, image_width, game):
 
     kernel = np.ones((5, 5), np.uint8)
 
+    image_center = image_width/2
+
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
     erode = cv2.erode(hsv, kernel)
@@ -53,12 +55,10 @@ def cv_process(image, image_width, game):
             if cv2.contourArea(contour) > 500:
                 x, y, w, h = cv2.boundingRect(contour)
                 cv2.rectangle(image.astype(np.uint8), (x, y), (x + w, y + h), (0, 0, 255), 3)
-                if (x < image_width/2) and (x+w < image_width/2):
-                    print("left")
+                if (x < image_center) and (x+w < image_center):
                     game.paddle.move(-10)
-                elif (x > image_width/2) and (x+w > image_width/2):
-                    print("right")
-                    game.paddle.move(10)
+                elif (x > image_center) and (x+w > image_center):
+                    game.paddle.move(+10)
 
     pass
 
