@@ -17,6 +17,9 @@ image = image[:, ::-1, :]
 i = 0
 begin_time = -1
 
+image_width = cap.get(3)
+image_center = image_width/2
+
 while True:
     last_begin_time = begin_time
     begin_time = begin_read_time = time.time_ns()
@@ -36,7 +39,6 @@ while True:
         for *box, conf, cls in im_boxes:
             box_class = int(cls)
             conf = float(conf)
-            # frameID, trackID, x, y, w, h, score,-1,-1,-1
             x = float(box[0])
             y = float(box[1])
             w = float(box[2]) - x
@@ -58,6 +60,11 @@ while True:
                             fontScale=0.5,
                             color=box_color,
                             thickness=1)
+
+                if (x < image_center) and (x+w < image_center):
+                    print("right")
+                elif (x > image_center) and (x+w > image_center):
+                    print("left")
 
     cv2.imshow("YOLOv5", output)
 
