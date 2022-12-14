@@ -24,8 +24,6 @@ def cv_update(game):
     cv_process(image, image_width, game)
     cv_output(image)
 
-
-
     # game.paddle.move(-1)
     game.after(1, cv_update, game)
 

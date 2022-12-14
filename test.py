@@ -8,31 +8,31 @@ while True:
 
     kernel = np.ones((5, 5), np.uint8)
 
-    # dilate = cv2.dilate(image, kernel)
-    # cv2.imshow("Dilate", dilate)
+    dilate = cv2.dilate(image, kernel)
+    cv2.imshow("Dilate Image", dilate)
 
-    # erode = cv2.erode(image, kernel)
-    # cv2.imshow("Erode", erode)
+    erode = cv2.erode(image, kernel)
+    cv2.imshow("Erode Image", erode)
 
     # image.width
     image_width = cap.get(3)
     # print(image_width)
 
-    # edges = cv2.Canny(image, 100, 200)
-    # cv2.imshow("Edges", edges)
+    edges = cv2.Canny(image, 100, 200)
+    cv2.imshow("Edges", edges)
 
     # inverte imagem / espelhado
     # image = image[:, ::-1, :]
 
     # transforma imagem em HSV
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    # cv2.imshow("hsv", hsv)
+    cv2.imshow("hsv", hsv)
 
-    # dilate = cv2.dilate(hsv, kernel)
-    # cv2.imshow("Dilate", dilate)
+    dilate = cv2.dilate(hsv, kernel)
+    cv2.imshow("Dilate HSV", dilate)
 
     erode = cv2.erode(hsv, kernel)
-    # cv2.imshow("Erode", erode)
+    cv2.imshow("Erode HSV", erode)
 
     # region Colors
 
@@ -49,6 +49,8 @@ while True:
     lower = np.array([15, 50, 50])
     upper = np.array([35, 255, 255])
     mask = cv2.inRange(erode, lower, upper)
+    mask3 = cv2.inRange(dilate, lower, upper)
+    # mask2 = cv2.inRange(image, lower, upper)
 
     # Blue
     # lower = np.array([90, 50, 50])
@@ -79,8 +81,10 @@ while True:
 
     image = image[:, ::-1, :]
     cv2.imshow("image", image)
-    mask = mask[:, ::-1]
-    cv2.imshow("yellow", mask)
+    #mask = mask[:, ::-1]
+    cv2.imshow("Mask Erode", mask)
+    # cv2.imshow("Mask Image", mask2)
+    cv2.imshow("Mask Dilate", mask3)
     # cv2.imshow("only yellow", result)
 
 
